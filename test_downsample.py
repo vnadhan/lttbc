@@ -42,9 +42,21 @@ def test_input_wrong_x_y():
 
 def test_single_dimension_validation():
     """Test that the downsample algorithm rejects arrays with multiple dims"""
-    x = np.array([[0., 0.], [1., 0.8], [0.9, 0.8], [0.9, 0.7], [0.9, 0.6],
-                  [0.8, 0.5], [0.8, 0.5], [0.7, 0.5], [0.1, 0.], [0., 0.]],
-                 dtype=np.double)
+    x = np.array(
+        [
+            [0.0, 0.0],
+            [1.0, 0.8],
+            [0.9, 0.8],
+            [0.9, 0.7],
+            [0.9, 0.6],
+            [0.8, 0.5],
+            [0.8, 0.5],
+            [0.7, 0.5],
+            [0.1, 0.0],
+            [0.0, 0.0],
+        ],
+        dtype=np.double,
+    )
     assert x.shape == (10, 2)
     assert x.ndim == 2
 
@@ -255,9 +267,31 @@ def test_array_mix_inf_nan():
     """Test mix of problematic input 'inf' and 'nan'"""
 
     x = np.arange(20, dtype=np.int32)
-    y = np.array([0.0, 1.0, 2.0, np.nan, 4.0, 5.0, 6.0, np.nan, np.inf,
-                  np.inf, 10.0, np.nan, 12.0, -np.inf, 14.0, 15.0, 16.0, 17.0,
-                  np.nan, 19.0], dtype=np.float64)
+    y = np.array(
+        [
+            0.0,
+            1.0,
+            2.0,
+            np.nan,
+            4.0,
+            5.0,
+            6.0,
+            np.nan,
+            np.inf,
+            np.inf,
+            10.0,
+            np.nan,
+            12.0,
+            -np.inf,
+            14.0,
+            15.0,
+            16.0,
+            17.0,
+            np.nan,
+            19.0,
+        ],
+        dtype=np.float64,
+    )
     assert sys.getrefcount(x) == 2
     assert sys.getrefcount(y) == 2
     nx, ny = lttbc.downsample(x, y, 10)
@@ -270,17 +304,40 @@ def test_array_mix_inf_nan():
     assert sys.getrefcount(nx) == 2
     assert sys.getrefcount(ny) == 2
     test_array = np.array(
-        [0., 0., 4., 4., 4., 10., -np.inf, -np.inf, -np.inf, 19.],
-        dtype=np.float64)
+        [0.0, 0.0, 4.0, 4.0, 4.0, 10.0, -np.inf, -np.inf, -np.inf, 19.0],
+        dtype=np.float64,
+    )
     np.testing.assert_array_almost_equal(ny, test_array)
 
 
 def test_single_nan():
     """Test single 'nan' input for down sampling"""
     x = np.arange(20, dtype=np.int32)
-    y = np.array([0.0, 1.0, 2.0, np.nan, 4.0, 5.0, 6.0, 7.0, 8.0,
-                  9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0,
-                  18.0, 19.0], dtype=np.float64)
+    y = np.array(
+        [
+            0.0,
+            1.0,
+            2.0,
+            np.nan,
+            4.0,
+            5.0,
+            6.0,
+            7.0,
+            8.0,
+            9.0,
+            10.0,
+            11.0,
+            12.0,
+            13.0,
+            14.0,
+            15.0,
+            16.0,
+            17.0,
+            18.0,
+            19.0,
+        ],
+        dtype=np.float64,
+    )
     assert sys.getrefcount(x) == 2
     assert sys.getrefcount(y) == 2
     nx, ny = lttbc.downsample(x, y, 10)
@@ -293,8 +350,8 @@ def test_single_nan():
     assert sys.getrefcount(nx) == 2
     assert sys.getrefcount(ny) == 2
     test_array = np.array(
-        [0., 0., 4., 5., 7., 10., 12., 14., 16., 19.],
-        dtype=np.float64)
+        [0.0, 0.0, 4.0, 5.0, 7.0, 10.0, 12.0, 14.0, 16.0, 19.0], dtype=np.float64
+    )
     np.testing.assert_array_almost_equal(ny, test_array)
 
 
@@ -304,9 +361,31 @@ def test_single_inf():
     XXX: Apparently infinite values provide a crappy result...
     """
     x = np.arange(20, dtype=np.int32)
-    y = np.array([0.0, 1.0, 2.0, np.inf, 4.0, 5.0, 6.0, 7.0, 8.0,
-                  9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0,
-                  18.0, 19.0], dtype=np.float64)
+    y = np.array(
+        [
+            0.0,
+            1.0,
+            2.0,
+            np.inf,
+            4.0,
+            5.0,
+            6.0,
+            7.0,
+            8.0,
+            9.0,
+            10.0,
+            11.0,
+            12.0,
+            13.0,
+            14.0,
+            15.0,
+            16.0,
+            17.0,
+            18.0,
+            19.0,
+        ],
+        dtype=np.float64,
+    )
     assert sys.getrefcount(x) == 2
     assert sys.getrefcount(y) == 2
     nx, ny = lttbc.downsample(x, y, 10)
@@ -319,6 +398,7 @@ def test_single_inf():
     assert sys.getrefcount(nx) == 2
     assert sys.getrefcount(ny) == 2
     test_array = np.array(
-        [0., 1., np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, 19.],
-        dtype=np.float64)
+        [0.0, 1.0, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, np.inf, 19.0],
+        dtype=np.float64,
+    )
     np.testing.assert_array_almost_equal(ny, test_array)
